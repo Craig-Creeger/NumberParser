@@ -1,0 +1,94 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Testing PixelPro.NumberParser</title>
+<style type="text/css">
+html {
+	font-family:Verdana, Geneva, sans-serif;
+	font-size:100%;
+	line-height:1.4;
+	background-color:white;
+}
+body {
+	width:85%;
+	margin:2em auto;
+	background-color:#EEE;
+	box-shadow: grey 0 0 30px 5px;
+	padding:2em;
+	box-sizing:border-box;
+	border-radius:20px;
+}
+.pushLeft {
+	float:left;
+	margin-right:2em;
+	margin-bottom:1em;
+}
+span {
+	font-family:"Courier New", Courier, monospace;
+	font-size:larger;
+}
+.clearfix:before, .clearfix:after {
+	content: "";
+	display: table;
+}
+.clearfix:after {
+	clear: both;
+}
+.clearfix {
+*zoom: 1;
+}
+</style>
+</head>
+
+<body class="clearfix" onLoad="checkNbr(document.getElementById('possibleNbr').value, document.getElementById('decimalPlaces').value);">
+<h1>PixelPro.NumberParser — Example Usage</h1>
+<p class="pushLeft"><label for="possibleNbr">Enter your Number here</label><br>
+	<input type="text" name="possibleNbr" id="possibleNbr" size="27" value="3.14159"> </p>
+<p class="pushLeft"><label><input type="radio" name="dataType" value="string" id="dataTypeString" checked> String</label><br>
+	<label><input type="radio" name="dataType" value="number" id="dataTypeNumber"> Number</label><br>
+</p>
+<p class="pushLeft">
+<label for="decimalPlaces">Round final<br>
+number to how<br>
+many decimal places?<input name="decimalPlaces" id="decimalPlaces" type="text" size="3">
+</p>
+<p class="pushLeft"><button>Test Number</button></p>
+<hr style="clear:both;">
+<div class="pushLeft" style="padding:1em; background-color:white;">
+	<p style="">isStrictNumber:<span id="isStrictNumber"></span></p>
+	<p>isNumeric:<span id="isNumeric"></span></p>
+	<p>toNumber:<span id="toNumber"></span></p>
+	<p>toString:<span id="toString"></span></p>
+	<p>toPercent:<span id="toPercent"></span></p>
+</div>
+<p>You may enter a percent symbol in the number field to have it evaluated as a percent.</p>
+<p>The contents of a textbox are always a string, but if you want it evaluated as a number, click the Number radio button (you will need to enter a valid number in the textbox).</p>
+<p>Due to the way computers store floating point numbers, you may see an unexpected number in the toPercent field. You can round the number by entering a numeric value in the Decimal Places box.</p>
+<script>
+document.querySelector('button').onclick = function() {
+	if (document.getElementById('dataTypeString').checked) {
+		checkNbr(document.getElementById('possibleNbr').value, document.getElementById('decimalPlaces').value);
+	} else {
+		checkNbr(Number(document.getElementById('possibleNbr').value, document.getElementById('decimalPlaces').value));
+	}
+};
+
+function checkNbr(myPossible, decimals) {
+	var decimalPlaces;
+	
+	if (PixelPro.NumberParser.isNumeric(decimals)) {
+		decimalPlaces = decimals * -1;
+	}
+	
+	nbrParse = new PixelPro.NumberParser(myPossible);
+	document.getElementById('isStrictNumber').innerHTML = nbrParse.isStrictNumber();
+	document.getElementById('isNumeric').innerHTML = nbrParse.isNumeric();
+	document.getElementById('toNumber').innerHTML = nbrParse.toNumber(decimalPlaces);
+	document.getElementById('toString').innerHTML = nbrParse.toString(decimalPlaces);
+	document.getElementById('toPercent').innerHTML = nbrParse.toPercent(decimalPlaces);
+}
+</script> 
+<script src="js/NumberParser.v.1.0.js"></script>
+</body>
+</html>
